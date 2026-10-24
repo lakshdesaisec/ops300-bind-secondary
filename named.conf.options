@@ -1,0 +1,20 @@
+acl "labnet" { 192.168.48.0/24; 127.0.0.1; 10.0.2.100; };
+
+options {
+  directory "/var/cache/bind";
+  listen-on { any; };
+  listen-on-v6 { none; };
+
+  recursion no;
+  allow-recursion { none; };
+  allow-query { labnet; };
+  allow-query-cache { none; };
+  allow-transfer { none; };
+  notify no;
+
+  dnssec-validation no;
+  version "not currently available";
+
+  blackhole { 0.0.0.0/8; 100.64.0.0/10; 169.254.0.0/16;
+              172.16.0.0/12; 224.0.0.0/3; };
+};
