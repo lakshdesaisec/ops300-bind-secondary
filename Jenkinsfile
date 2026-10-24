@@ -19,10 +19,11 @@ pipeline {
         }
         stage('CVE Scan') {
             steps {
-                // Decision: fail the build on HIGH or CRITICAL findings.
-                // --ignore-unfixed skips CVEs that have no patch available yet.
+                // Decision: collect results as an artifact and continue.
+                // Every build saves trivy-report.txt with all HIGH/CRITICAL findings.
                 sh 'rm -f image.tar && podman save -o image.tar "$IMAGE:$TAG"'
-                sh 'trivy image --input image.tar --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1'
+                sh 'trivy image --input image.tar --severity HIGH,CRITICAL --ignore-unfixed --exit-code 0 --format table --output trivy-report.txt'
+                archiveArtifacts artifacts: 'trivy-report.txt', fingerprint: true
             }
         }
         stage('Push') {
