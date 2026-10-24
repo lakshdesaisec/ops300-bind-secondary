@@ -1,0 +1,12 @@
+zone "lab.lndesai.300.ops" {
+  type secondary;
+  primaries { 192.168.48.10; };
+  file "/var/cache/bind/db.lab.lndesai.300.ops";
+  allow-transfer { none; };
+};
+zone "48.168.192.in-addr.arpa" {
+  type secondary;
+  primaries { 192.168.48.10; };
+  file "/var/cache/bind/db.192.168.48";
+  allow-transfer { none; };
+};
